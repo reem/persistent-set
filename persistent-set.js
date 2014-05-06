@@ -61,4 +61,110 @@ PSet.prototype.contains = function (val) {
   }
 };
 
+PSet.prototype.notContains = Utility.not(PSet.prototype.contains);
+
+PSet.prototype.findLessThan = function (val, best) {
+  if (best) {
+    if (this.isTip) {
+      return best;
+    } else if (this.isBin) {
+      if (this.val >= val) {
+        return this.left.findLessThan(val, best);
+      } else {
+        return this.right.findLessThan(val, this.val);
+      }
+    }
+  } else {
+    if (this.isTip) {
+      return null;
+    } else if (this.isBin) {
+      if (this.val >= val) {
+        return this.left.findLessThan(val);
+      } else {
+        return this.right.findLessThan(val, this.val);
+      }
+    }
+  }
+};
+
+PSet.prototype.findGreaterThan = function (val, best) {
+  if (best) {
+    if (this.isTip) {
+      return best;
+    } else if (this.isBin) {
+      if (this.val > val) {
+        return this.left.findLessThan(val, this.val);
+      } else {
+        return this.right.findLessThan(val, best);
+      }
+    }
+  } else {
+    if (this.isTip) {
+      return null;
+    } else if (this.isBin) {
+      if (this.val > val) {
+        return this.left.findLessThan(val, this.val);
+      } else {
+        return this.right.findLessThan(val);
+      }
+    }
+  }
+};
+
+PSet.prototype.findLessEqualThan = function (val, best) {
+  if (best) {
+    if (this.isTip) {
+      return best;
+    } else if (this.isBin) {
+      if (this.val === val) {
+        return this.val;
+      } else if (val < this.val) {
+        return this.left.findLessEqualThan(val, best);
+      } else if (val > this.val) {
+        return this.right.findLessEqualThan(val, this.val);
+      }
+    }
+  } else {
+    if (this.isTip) {
+      return null;
+    } else if (this.isBin) {
+      if (this.val === val) {
+        return this.val;
+      } else if (val < this.val) {
+        return this.left.findLessEqualThan(val);
+      } else if (val > this.val) {
+        return this.right.findLessEqualThan(val, this.val);
+      }
+    }
+  }
+};
+
+PSet.prototype.findGreaterEqualThan = function (val, best) {
+  if (best) {
+    if (this.isTip) {
+      return best;
+    } else if (this.isBin) {
+      if (this.val === val) {
+        return this.val;
+      } else if (val < this.val) {
+        return this.left.findGreaterEqualThan(val, this.val);
+      } else if (val > this.val) {
+        return this.right.findGreaterEqualThan(val, best);
+      }
+    }
+  } else {
+    if (this.isTip) {
+      return null;
+    } else if (this.isBin) {
+      if (this.val === val) {
+        return this.val;
+      } else if (val < this.val) {
+        return this.left.findGreaterEqualThan(val, this.val);
+      } else if (val > this.val) {
+        return this.right.findGreaterEqualThan(val);
+      }
+    }
+  }
+};
+
 }(PSet));
