@@ -176,4 +176,46 @@ PSet.Singleton = function (val) {
 exports.Empty = PSet.Empty;
 exports.Singleton = PSet.Singleton;
 
+PSet.prototype.insert = function (val) {
+  if (this.isTip) {
+    return PSet.Singleton(val);
+  } else {
+    if (val < this.val) {
+      return balance(this.val, this.left.insert(val), this.right);
+    } else if (val === this.val) {
+      return PSet.Bin(this.size, val, this.left, this.right);
+    } else if (val > this.val) {
+      return balance(this.val, this.left, this.right.insert(val));
+    }
+  }
+};
+
+PSet.prototype.insertUnique = function (val) {
+  if (this.isTip) {
+    return PSet.Singleton(val);
+  } else {
+    if (val < this.val) {
+      return balance(this.val, this.left.insertR(val), this.right);
+    } else if (val === this.val) {
+      return this;
+    } else if (val > this.val) {
+      return balance(this.val, this.left, this.right.insertR(val));
+    }
+  }
+};
+
+PSet.prototype.delete = function (val) {
+  if (this.isTip) {
+    return this;
+  } else {
+    if (val < this.val) {
+      return balance(this.val, this.left.delete(val), this.right);
+    } else if (val === this.val) {
+      return glue(this.left, this.right);
+    } else if (val > this.val) {
+      return balance(this.val, this.left, this.right.delete(val));
+    }
+  }
+};
+
 }(PSet));
