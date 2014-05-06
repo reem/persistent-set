@@ -167,4 +167,13 @@ PSet.prototype.findGreaterEqualThan = function (val, best) {
   }
 };
 
+PSet.Empty = function () { return PSet.Tip; };
+
+PSet.Singleton = function (val) {
+  return PSet.Bin(1, val, PSet.Tip, PSet.Tip);
+};
+
+exports.Empty = PSet.Empty;
+exports.Singleton = PSet.Singleton;
+
 }(PSet));
